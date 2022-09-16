@@ -16,7 +16,7 @@ int main(void)
         {
             std::cin >> grade[j];
         }
-        sort(grade.begin(), grade.end());
+        std::sort(grade.begin(), grade.end());
         if (grade[3] - grade[1] >= 4)
 		{
 			result[i] = -1;
@@ -39,4 +39,5 @@ int main(void)
         }
 		std::cout << "\n";
 	}
+    return 0;
 }
