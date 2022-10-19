@@ -1,42 +1,38 @@
 #include <iostream>
 #include <queue>
 #define MAX 101
-
 using namespace std;
 
+int n, m, tmp;
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
 int maze[MAX][MAX];
-int visited[MAX][MAX];
-int dist[MAX][MAX];
+int checked[MAX][MAX];
+int distances[MAX][MAX];
+queue<pair<int,int> > q;
 
-int x_dir[4] = {-1, 1, 0, 0};
-int y_dir[4] = {0, 0, -1, 1};
-
-queue<pair<int, int>> q;
-
-void bfs(int start_x, int start_y)
+void dfs(int start_x, int start_y)
 {
-    visited[start_x][start_y] = 1;
+    int x;
+    int y;
+    checked[start_x][start_y] = 1;
+    distances[start_x][start_y]++;
     q.push(make_pair(start_x, start_y));
-    dist[start_x][start_y]++;
-    
-    while(!q.empty())
+
+    while (!q.empty())
     {
-        int x = q.front().first;
-        int y = q.front().second;
-
+        x = q.front().first;
+        y = q.front().second;
         q.pop();
-
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            int x_new = x + x_dir[i];
-            int y_new = y + y_dir[i];
-
-            if (maze[x_new][y_new] == 1 && !visited[x_new][y_new] &&
-            (0 <= x_new && x_new < N) && (0 <= y_new && y_new < M))
+            int x_new = x + dx[i];
+            int y_new = y + dy[i];
+            if (!checked[x_new][y_new] && maze[x_new][y_new] && (x_new >= 0 && x_new < n)&& (y_new >= 0 && y_new < m))
             {
-                visited[x_new][y_new] = 1;
-                q.push(make_pair(x_new, y_new));
-                dist[x_new][y_new] = dist[x][y] + 1;
+                checked[x_new][y_new] = 1;
+                distances[x_new][y_new] = distances[x][y] + 1;
+                q.push(make_pair(x_new, y_new));                
             }
         }
     }
@@ -45,19 +41,17 @@ void bfs(int start_x, int start_y)
 
 int main(void)
 {
-    int N, M;
-
-    cin >> N >> M;
-    for (int i = 0; i < N; i++)
+    cin >> n >> m;
+    for (int i = 0; i < n; i++)
     {
-        string row;
-        cin >> row;
-
-        for (int j = 0; j < M; j++)
+        string s;
+        cin >> s;
+        for(int j = 0; j < m; j++)
         {
-            maze[i][j] = row[j] - '0';
+            maze[i][j] = s[j] - '0';
         }
     }
-    bfs(0, 0);
-    cout << dist[N-1][M-1];
+    dfs(0, 0);
+    cout << distances[n-1][m-1] << '\n';
+    return 0;
 }
