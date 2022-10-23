@@ -54,13 +54,13 @@ int main(void)
             arr[i][j] = tmp;
         }
     }
-    for (int i = 1; i < max_num; i++)
+    for (int i = 0; i < max_num; i++)
     {
-        memset(checked, 0, sizeof(checked));
         cnt = 0;
         height = i;
         check_arr();
         v.push_back(cnt);
+        memset(checked, 0, sizeof(checked));
     }
     sort(v.begin(), v.end(), greater<int>());
     cout << v[0] << endl;
